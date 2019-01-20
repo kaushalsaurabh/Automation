@@ -1,4 +1,4 @@
-''' This script will read the file which has JIRA Bugs which had bugzilla keyword.
+''' This program will read the file which has JIRA Bugs which had bugzilla keyword.
 Then it will extract the bugzilla bug and populate it'''
 
 import json
@@ -6,7 +6,7 @@ from jira import JIRA
 import re
 import csv
 
-jira = JIRA(basic_auth=('', ''), options={'server':'https://jira.eng.vmware.com'})
+jira = JIRA(basic_auth=('', ''), options={'server':''})
 
 # Read the file which has bugzilla bugs mentioned
 jira_issues = []

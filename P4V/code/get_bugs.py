@@ -37,7 +37,7 @@ try:                             # Catch exceptions with try/except
 
     # Get the directories to be parsed According to branch
     directories_re = 'test'
-    path = '//depot/vsphere-client-modules'+'/h5c-cloud'
+    path = '//depot/vsphere-client-modules'+'/h5c-dev'
     directories_path = []
     sub_directories = p4.run("dirs", path+'/*')
     for directory in sub_directories:
@@ -56,7 +56,7 @@ try:                             # Catch exceptions with try/except
 
 
     # Write all the changelists in a csv file
-    wtr = csv.writer(open('./data/intermediate/h5c-cloud/vsphere-client-modules.csv', 'w'))
+    wtr = csv.writer(open('./data/intermediate/h5c-dev/vsphere-client-modules.csv', 'w'))
     for changelist in unique_set:
         changelist_list = [changelist]
         wtr.writerow(changelist_list)

@@ -6,7 +6,7 @@ import csv
 
 # Initializing server
 
-jira = JIRA(basic_auth=('', ''), options={'server':'https://jira.eng.vmware.com'})
+jira = JIRA(basic_auth=('', ''), options={'server':''})
 
 
 # Jira bugs resolved from 2017/1/1 to 2018/12/31 - API seems to have a limit of max 1000 entries hence split in two

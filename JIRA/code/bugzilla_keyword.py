@@ -16,7 +16,7 @@ with open('final/final_bug_list.csv') as csvfile:
 jira_bugs_bugzilla_comments = []
 
 # Make JIRA connection and search keyword "bugzilla" in the comments of these JIRA bugs
-jira = JIRA(basic_auth=('', ''), options={'server':'https://jira.eng.vmware.com'})
+jira = JIRA(basic_auth=('', ''), options={'server':''})
 for issue_str in jira_issues:
     issue = jira.issue(issue_str[0])
     issue_json_string = json.dumps(issue.raw)
