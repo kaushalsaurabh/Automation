@@ -10,9 +10,9 @@ import re
 import csv
 
 p4 = P4()                        # Create the P4 instance
-p4.port = "perforce.eng.vmware.com:1666"
-p4.user = "skaushal"
-p4.client = "skaushal_skaushal-m01_9556"            # Set some environment variables
+p4.port = ""
+p4.user = ""
+p4.client = ""            # Set some environment variables
 
 jira_re = 'VSUIP-\d*|VUA-\d*|VUD-\d*|VUCL-\d*|VUGV-\d*|VUHP-\d*|VUL-\d*|VUN-\d*|VUSP-\d*|VUVC-\d*|VSUN-\d*|VUS-\d*|VUSS-\d*|' \
           'VUVCHA-\d*|VUCI-\d*|VUVG-\d*|VSUIR-\d*|MU-\d*|VPAR-\d*|VUAM-\d*|VMSPP-\d*|VUZZZ-\d*|VU-\d*|VDS-\d*|VUPSCM-\d*|VHVU-\d*' \

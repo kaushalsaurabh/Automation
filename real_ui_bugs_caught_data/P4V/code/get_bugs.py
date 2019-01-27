@@ -1,13 +1,13 @@
-'''This scriot will get changelists that went into product code for a given period'''
+'''This script will get changelists that went into product code for a given period'''
 
 from P4 import P4, P4Exception    # Import the module
 import re
 import csv
 
 p4 = P4()                        # Create the P4 instance
-p4.port = "perforce.eng.vmware.com:1666"
-p4.user = "skaushal"
-p4.client = "skaushal_skaushal-m01_9556"            # Set some environment variables
+p4.port = ""
+p4.user = ""
+p4.client = ""            # Set some environment variables
 
 
 # Function which takes list of directory paths as input and returns unique set of perforce changelists

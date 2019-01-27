@@ -1,0 +1,36 @@
+// Automated Build-Tzar
+digraph {
+	"build-tzar" [label="Automated triaging 
+ for secondary pipeline" color=blue fontcolor=Red fontsize=30]
+	features [label="Dynamic 
+ No code changes required 
+ for addition/ deletion of branches/test suites" color=darkgreen fontcolor=darkgreen style=dashed]
+	"build-tzar" -> features [label="Salient Features" color=darkgreen fontcolor=darkgreen style=dashed]
+	"case-1" [label="Test case failures for which 
+ JIRA bugs have been raised in 
+ previous failures / other branches" fontcolor=blue shape=rectangle]
+	"build-tzar" -> "case-1" [label="Case-1" fontcolor=blue]
+	"case-1-ex" [label="Test com......ScheduleDrsTest failed 
+ but in previous run product bug VSUIR-335 was raised" style=dashed]
+	"case-1" -> "case-1-ex" [label="For Example" style=dashed]
+	"case-2" [label="Test case failures for which 
+ there are no JIRA bugs" fontcolor=blue shape=rectangle]
+	"build-tzar" -> "case-2" [label="Case-2" fontcolor=blue]
+	"step-1a" [label="Getting JIRA bugs for failing test case 
+from previous failures/ other branches" fontcolor=blue]
+	"case-1" -> "step-1a" [label="Step-1a" fontcolor=blue]
+	"step-1b" [label="Updating the database 
+with JIRA bug so 
+it is visible in qmon" fontcolor=blue]
+	"step-1a" -> "step-1b" [label="Step-1b" fontcolor=blue]
+	"step-1c" [label="Updating the JIRA bug
+ with log from latest failure" fontcolor=blue]
+	"step-1b" -> "step-1c" [label="Step-1c" fontcolor=blue]
+	"step-2a" [label="Raising a JIRA bug 
+ with failure logs" fontcolor=blue]
+	"case-2" -> "step-2a" [label="Step-2a" fontcolor=blue]
+	"step-2b" [label="Updating the database 
+with JIRA bug so 
+it is visible in qmon" fontcolor=blue]
+	"step-2a" -> "step-2b" [label="Step-2b" fontcolor=blue]
+}
