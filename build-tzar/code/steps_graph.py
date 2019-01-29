@@ -42,4 +42,4 @@ dot.edge('step-2a', 'step-2b', label='Step-2b', fontcolor='blue')
 
 
 print(dot)
-dot.render('../graphs/Automated-Triaging-Steps', view='true')
+dot.render('../graphs/Automated-Triaging-Plan', view='true')

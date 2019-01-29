@@ -1,4 +1,4 @@
-'''This script will query q-mon database and get untriaged bugs'''
+'''This script will query q-mon and get untriaged bugs'''
 
 import psycopg2
 import csv
@@ -25,7 +25,7 @@ def get_untriaged_bugs(qmon_col, branch, conn):
         segment_type_id = [x[0] for x in cur.fetchall()][0]
         print("segment_type_id=", segment_type_id)
 
-        # Get branch id for given branch
+        # Get branch id for h5c-cloud
         cur.execute("select id from branch where name ='"+ branch + "'")
 
         # Print results
@@ -70,23 +70,25 @@ def get_untriaged_bugs(qmon_col, branch, conn):
                 print("segment_id=", segment_id)
 
             # Get log url and name of the failed tests
-            failed_test_query = "select log, name, owner from result where segment_id="+str(segment_id) +" and (state ='failed' or state ='malicious') and issue_id is null"
+            failed_test_query = "select id, log, name, owner from result where segment_id="+str(segment_id) +" and (state ='failed' or state ='malicious') and issue_id is null"
             print("failed_test_query="+failed_test_query)
             cur.execute(failed_test_query)
 
             # Print results
+            result_ids = []
             logs = []
             names = []
             owners = []
-            for log, name, owner in cur.fetchall():
+            for ids, log, name, owner in cur.fetchall():
+                result_ids.append(ids)
                 names.append(name)
                 logs.append(log)
                 owners.append(owner)
-
+            print("result_ids=", result_ids)
             print("logs=", logs)
             print("names=",  names)
             print("owners=",  owners)
-            row_to_be_written = [cln, segment_type_id, branch_id, segment_id, names, logs, owners]
+            row_to_be_written = [cln, segment_type_id, branch_id, segment_id, names, logs, owners, result_ids]
             final_rows.append(row_to_be_written)
 
         # Write the data to a file

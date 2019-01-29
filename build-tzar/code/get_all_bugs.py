@@ -36,12 +36,12 @@ try:
     def get_product_bug_for_testcase (testcase, conn):
 
             # If it is provider failure ignore
-            if len(re.findall("Provider", testcase)) > 0 or testcase is None or len(testcase) == 0 :
-                return ["", ""]
+            if len(re.findall("Provider", testcase)) > 0 or testcase is None or len(testcase) == 0:
+                return ["", "", ""]
 
             # Get segment id for the given q-mon column
             cur = conn.cursor()
-            bug_number_query = "select issue.bug_number, issue_type from issue, \"result\" where " \
+            bug_number_query = "select issue.id, issue.bug_number, issue_type from issue, \"result\" where " \
                                "issue.bug_number is not null and \"result\".\"name\"="+testcase+" and \"result\".issue_id = issue.id and " \
                                                                                                  "date > ('now'::date - '20 day'::interval) order by date desc limit 1"
             print("bug_number_query="+bug_number_query)
@@ -49,13 +49,16 @@ try:
 
             # Print results
             bug_number = ""
+            issue_id = ""
             issue_type = ""
-            for bug_numbers, issue_types in cur.fetchall():
+            for issue_ids, bug_numbers, issue_types in cur.fetchall():
                 bug_number = bug_numbers
                 issue_type = issue_types
+                issue_id = issue_ids
             print("bug_number=", bug_number)
             print("issue_type=", issue_type)
-            return [bug_number, issue_type]
+            print("issue_id=", issue_id)
+            return [bug_number, issue_type, issue_id]
 
 
 
@@ -75,7 +78,10 @@ try:
             print("test_cases=", test_cases)
             product_bugs = []
             issue_types = []
-            test_cases_list = convert_string_to_list(test_cases)
+            issue_ids = []
+            test_cases_list = []
+            if test_cases != "[]":
+                test_cases_list = convert_string_to_list(test_cases)
 
             # Iterate through list to find product bugs
             for current_testcase in test_cases_list:
@@ -85,11 +91,12 @@ try:
 
                 product_bugs.append(returned_values[0])
                 issue_types.append(returned_values[1])
+                issue_ids.append(returned_values[2])
 
             print("product_bugs=", product_bugs)
 
             # Append to the final list to be added
-            current_final_row = [current_row[0], current_row[1], current_row[2], current_row[3], current_row[4], product_bugs, issue_types, current_row[5], current_row[6]]
+            current_final_row = [current_row[0], current_row[1], current_row[2], current_row[3], current_row[4], product_bugs, issue_types, current_row[5], current_row[6], current_row[7], issue_ids]
             final_rows.append(current_final_row)
 
         get_untriaged_bugs.write_to_csv(filepath+current_segment+'_product_bugs.csv', final_rows)

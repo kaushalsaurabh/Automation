@@ -52,19 +52,29 @@ def get_corresponding_bugs(bugs):
             continue
 
         # If it is a jira issue verify that it is open and add it
-        issue = jira.issue(current_bug)
-        issue_json_string = json.dumps(issue.raw)
-        issue_json = json.loads(issue_json_string)
-        current_state = issue_json["fields"]["status"]["name"]
-        if current_state.upper() != 'RESOLVED' or current_state.upper() != 'CLOSED':
-            final_bugs.append(current_bug)
+        print("current_bug=", current_bug)
+        bug_to_be_appended = ""
+        try:
+            issue = jira.issue(current_bug)
+            issue_json_string = json.dumps(issue.raw)
+            issue_json = json.loads(issue_json_string)
+            current_state = issue_json["fields"]["status"]["name"]
+            print("current_state=", current_state.upper())
+            if current_state.upper() != "RESOLVED":
+                if current_state.upper() != "CLOSED":
+                    print("Adding bug to final list")
+                    bug_to_be_appended = current_bug
+        except Exception as e:
+            print("Exception occured:", e)
 
+        final_bugs.append(bug_to_be_appended)
+    print("final_bugs after ignoring resolved and closed=", final_bugs)
     return final_bugs
 def get_bugs_from_changelist(input_filepath, output_filepath, qmon):
     # Read the file
     all_rows = read_from_file(input_filepath +qmon+'_product_bugs.csv')
 
-    header_row = ['Changelist', 'SegmentId', 'Test Failure', 'Failure Type', 'Team Name', 'Jira / Bugzilla', 'Log URL']
+    header_row = ['Changelist', 'SegmentId', 'Test Failure', 'Failure Type', 'Team Name', 'Jira / Bugzilla', 'Log URL', 'ResultId', 'IssueId']
     final_rows = []
     final_rows.append(header_row)
     for current_row in all_rows:
@@ -85,14 +95,20 @@ def get_bugs_from_changelist(input_filepath, output_filepath, qmon):
         # Get logs for all the failures
         test_failures_logs = convert_string_to_list(current_row[7])
 
-        # Get teams for all the failures
+        # Get teams for all the failures`
         test_failures_teams = convert_string_to_list(current_row[8])
 
+        # Get Result Ids
+        result_ids = convert_string_to_list(current_row[9])
 
+        # Get issue Ids
+        issue_ids = convert_string_to_list(current_row[10])
+
+        print("result_ids=", result_ids)
 
         for i in range(len(final_bugs)):
             # Add to the rows to be written
-            row_to_be_appened = [current_row[0], current_row[3], test_failures[i], test_failures_types[i], test_failures_teams[i], final_bugs[i], test_failures_logs[i]]
+            row_to_be_appened = [current_row[0], current_row[3], test_failures[i], test_failures_types[i], test_failures_teams[i], final_bugs[i], test_failures_logs[i], result_ids[i], issue_ids[i]]
             final_rows.append(row_to_be_appened)
 
         # Write to csv
