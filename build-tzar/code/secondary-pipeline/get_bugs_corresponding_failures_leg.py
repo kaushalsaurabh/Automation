@@ -1,5 +1,3 @@
-''' This script will run step-1a'''
-
 import get_untriaged_bugs
 import get_all_bugs
 import triage_found_bugs

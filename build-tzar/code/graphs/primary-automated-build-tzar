@@ -1,0 +1,36 @@
+// Primary Automated Build-Tzar
+digraph {
+	"build-tzar" [label="Eliminating build-tzar 
+ for primary pipeline" color=blue fontcolor=Red fontsize=30]
+	"pre-checkin" [label="Pre-Checkin Job" fontcolor=blue shape=rectangle]
+	"build-tzar" -> "pre-checkin" [fontcolor=blue]
+	questions [label="Frequency of pre-checkin job" color=darkgreen fontcolor=darkgreen style=dashed]
+	"pre-checkin" -> questions [label="Questions need to be 
+answered in some time" color=darkgreen fontcolor=darkgreen style=dashed]
+	"every-checkin" [label="Requires too many resources" color=darkgreen fontcolor=darkgreen style=dashed]
+	questions -> "every-checkin" [label="Running job 
+for every check-in" color=darkgreen fontcolor=darkgreen style=dashed]
+	scheduling [label="Difficulty finding 
+ faulty check-in" color=darkgreen fontcolor=darkgreen style=dashed]
+	questions -> scheduling [label="Scheduling 2-3 times daily" color=darkgreen fontcolor=darkgreen style=dashed]
+	"false-negatives" [label="Eliminating false negatives" color=red fontcolor=red shape=rectangle]
+	"pre-checkin" -> "false-negatives" [label="Requires Immediate Attention" fontcolor=red]
+	manually [label="Build-tzar" color=red fontcolor=red shape=rectangle]
+	"false-negatives" -> manually [label=Manually fontcolor=red]
+	deciding [label="Deciding which tests to disable" color=red fontcolor=red shape=rectangle]
+	manually -> deciding [fontcolor=red]
+	"re-trigger" [label="Re-run passes" color=red fontcolor=red]
+	deciding -> "re-trigger" [label="Trigger another run" fontcolor=red]
+	historically [label="Historically flaked 5% times" color=red fontcolor=red]
+	deciding -> historically [fontcolor=red]
+	bug [label="Raising a bug 
+ with label = \"flaky-test\"" color=red fontcolor=red]
+	manually -> bug [fontcolor=red]
+	automatically [label="Automated script" color=red fontcolor=red shape=rectangle]
+	"false-negatives" -> automatically [label=Automated fontcolor=red]
+	disable [label="Disabling tests 
+ flaking 5% 
+ and cleanup 2%
+ and raising a bug" color=red fontcolor=red]
+	automatically -> disable [label=Automated fontcolor=red]
+}
